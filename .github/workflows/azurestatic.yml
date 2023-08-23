@@ -1,0 +1,30 @@
+
+name: Azure Blob storage website CI React
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+          node-version: '14'
+          
+    - name: Build check
+      run: | 
+       npm install
+       npm run build
+       
+          
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az storage blob upload-batch --account-name teststorageaccountstatic -d '$web' -s .
