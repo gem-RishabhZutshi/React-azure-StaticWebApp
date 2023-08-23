@@ -27,4 +27,4 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name teststorageaccountstatic -d '$web' -s .
+            az storage blob upload-batch --account-name teststorageaccountstatic --auth-mode login -d '$web' -s .
